@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FitMind AI - Asisten Kesehatan Mental & Produktivitas Cerdas berbasis AI untuk membantu menjaga kesehatan mental dan meningkatkan produktivitas">
+    <meta name="keywords" content="kesehatan mental, AI, produktivitas, meditasi, mindfulness, chatbot, terapi">
+    <meta name="author" content="FitMind AI">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="FitMind AI - Asisten Kesehatan Mental & Produktivitas Cerdas">
+    <meta property="og:description" content="Website interaktif berbasis AI untuk kesehatan mental, fokus belajar/kerja, dan kebiasaan positif">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:url" content="https://fitmindai.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FitMind AI - Asisten Kesehatan Mental & Produktivitas Cerdas">
+    <meta name="twitter:description" content="Website interaktif berbasis AI untuk kesehatan mental dan produktivitas">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#5D5FEF">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <title>FitMind AI – Asisten Kesehatan Mental & Produktivitas Cerdas</title>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>FitMind AI</span>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Beranda</a></li>
+                    <li><a href="#" class="nav-link" data-page="mood">Mood Tracker</a></li>
+                    <li><a href="#" class="nav-link" data-page="chat">AI Therapist</a></li>
+                    <li><a href="#" class="nav-link" data-page="habits">Habit Planner</a></li>
+                    <li><a href="#" class="nav-link" data-page="games">Mini Games</a></li>
+                    <li><a href="#" class="nav-link" data-page="relax">Relaksasi</a></li>
+                    <li><a href="#" class="nav-link" data-page="dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-info">
+                <div class="user-avatar">RA</div>
+                <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Jaga Kesehatan Mental & Tingkatkan Produktivitas</h1>
+            <p>FitMind AI adalah asisten cerdas yang membantu Anda menjaga kesehatan mental, fokus belajar/kerja, dan membangun kebiasaan positif dengan teknologi AI terkini.</p>
+            <div class="hero-btns">
+                <button class="btn btn-primary" id="startBtn">Mulai Hari Ini</button>
+                <button class="btn btn-secondary" id="tryGamesBtn">Coba Mini Games</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Page -->
+        <section id="home" class="main-content active">
+            <h2 class="section-title">Fitur-Fitur Unggulan</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Mood Tracker AI</h3>
+                    <p>Lacak suasana hati Anda setiap hari. AI akan menganalisis emosi dan memberikan insight berdasarkan tulisan Anda.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Chat Therapist</h3>
+                    <p>Chatbot pendengar berbasis AI yang merespons dengan empati dan saran positif untuk membantu Anda mengatasi masalah.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Mini Games Relaksasi</h3>
+                    <p>Permainan santai untuk melatih fokus, mengurangi stres, dan melatih otak dengan cara yang menyenangkan.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Music & Meditation</h3>
+                    <p>Akses musik relaksasi dan meditasi AI-generated untuk menenangkan pikiran dan meningkatkan fokus.</p>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Mini Games untuk Relaksasi</h2>
+            <div class="games-grid" style="margin-top: 2rem;">
+                <div class="game-card game-1">
+                    <div class="game-header">
+                        <h3><i class="fas fa-wind"></i> Pernapasan 4-7-8</h3>
+                        <p>Teknik relaksasi pernapasan</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Ikuti panduan pernapasan untuk mengurangi stres dan kecemasan.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="breathing">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="game-card game-2">
+                    <div class="game-header">
+                        <h3><i class="fas fa-memory"></i> Memory Match</h3>
+                        <p>Latih daya ingat dan fokus</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Temukan pasangan kartu yang sama untuk melatih memori dan konsentrasi.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="memory">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="game-card game-3">
+                    <div class="game-header">
+                        <h3><i class="fas fa-bullseye"></i> Focus Trainer</h3>
+                        <p>Tingkatkan fokus dan refleks</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Klik target yang muncul untuk melatih fokus dan ketelitian visual.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="focus">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mood Tracker Page -->
+        <section id="mood" class="main-content">
+            <h2 class="section-title">Mood Tracker AI</h2>
+            
+            <div class="mood-tracker">
+                <p style="margin-bottom: 1.5rem;">Bagaimana perasaan Anda hari ini? Tuliskan apa yang Anda rasakan atau pilih emoji yang sesuai.</p>
+                
+                <div class="mood-input-area">
+                    <div class="emoji-selector">
+                        <div class="emoji-option" data-emoji="😊" data-mood="happy">😊</div>
+                        <div class="emoji-option" data-emoji="😐" data-mood="neutral">😐</div>
+                        <div class="emoji-option" data-emoji="😔" data-mood="sad">😔</div>
+                        <div class="emoji-option" data-emoji="😴" data-mood="tired">😴</div>
+                        <div class="emoji-option" data-emoji="😰" data-mood="anxious">😰</div>
+                        <div class="emoji-option" data-emoji="😠" data-mood="angry">😠</div>
+                    </div>
+                    
+                    <textarea class="mood-textarea" id="moodText" placeholder="Tuliskan perasaan Anda hari ini... Contoh: Hari ini saya merasa sedikit cemas karena deadline pekerjaan, tapi saya berusaha tetap tenang..."></textarea>
+                    
+                    <button class="btn btn-primary" id="analyzeMoodBtn">
+                        <i class="fas fa-chart-line"></i> Analisis Suasana Hati
+                    </button>
+                </div>
+                
+                <div class="analysis-result" id="analysisResult">
+                    <h3 style="color: var(--primary-dark); margin-bottom: 1rem;">Hasil Analisis AI</h3>
+                    <div id="analysisContent">
+                        <!-- Hasil analisis akan ditampilkan di sini -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Therapist Chat Page -->
+        <section id="chat" class="main-content">
+            <h2 class="section-title">AI Chat Therapist</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Chatbot ini dirancang untuk memberikan dukungan emosional dengan respons empatik. Ingat: AI tidak menggantikan psikolog profesional.</p>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-robot" style="font-size: 1.5rem;"></i>
+                    <h3>FitMind AI Therapist</h3>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        Halo! Saya FitMind AI, asisten kesehatan mental Anda. Bagaimana perasaan Anda hari ini? Saya di sini untuk mendengarkan dan memberikan dukungan.
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan Anda di sini..." aria-label="Pesan untuk AI Therapist">
+                    <button class="btn btn-primary" id="sendMessageBtn" style="margin-left: 1rem;" aria-label="Kirim pesan">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habit Planner Page -->
+        <section id="habits" class="main-content">
+            <h2 class="section-title">Daily Habit Planner</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">AI akan membantu Anda membuat jadwal harian dan kebiasaan produktif sesuai kondisi emosional Anda.</p>
+            
+            <div class="habit-planner">
+                <div class="habit-form">
+                    <input type="text" class="chat-input" id="habitInput" placeholder="Tambahkan kebiasaan baru...">
+                    <select class="chat-input" id="habitPriority">
+                        <option value="low">Prioritas Rendah</option>
+                        <option value="medium" selected>Prioritas Menengah</option>
+                        <option value="high">Prioritas Tinggi</option>
+                    </select>
+                    <button class="btn btn-primary" id="addHabitBtn">Tambah</button>
+                </div>
+                
+                <h3 style="color: var(--primary-dark); margin-bottom: 1rem; font-size: 1.3rem;">Kebiasaan Hari Ini</h3>
+                <div class="habit-list" id="habitList">
+                    <!-- Daftar habit akan ditampilkan di sini -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Mini Games Page -->
+        <section id="games" class="main-content">
+            <h2 class="section-title">Mini Games Relaksasi & Brain Training</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Permainan singkat untuk mengurangi stres, melatih fokus, dan meningkatkan kesehatan mental dengan cara yang menyenangkan.</p>
+            
+            <div class="games-grid">
+                <!-- Game 1: Breathing Exercise -->
+                <div class="game-card game-1">
+                    <div class="game-header">
+                        <h3><i class="fas fa-wind"></i> Pernapasan 4-7-8</h3>
+                        <p>Teknik relaksasi untuk mengurangi kecemasan</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Sesi: <span id="breathingSessions">0</span></span>
+                            <span>Durasi: <span id="breathingDuration">0</span> detik</span>
+                        </div>
+                        <p class="game-instructions">Ikuti panduan: Tarik napas (4 detik) → Tahan (7 detik) → Buang napas (8 detik). Ulangi 4 kali.</p>
+                        
+                        <div class="breathing-circle" id="breathingCircle">
+                            <div id="breathingText">Siap? Mulai!</div>
+                            <div id="breathingTimer" style="font-size: 2rem; font-weight: bold; display: none;">4</div>
+                        </div>
+                        
+                        <div class="breathing-controls">
+                            <button class="btn btn-game" id="startBreathingBtn">
+                                <i class="fas fa-play"></i> Mulai
+                            </button>
+                            <button class="btn" style="background-color: var(--gray-light);" id="resetBreathingBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--gray-light);">
+                            <p style="font-size: 0.9rem; color: var(--gray);">Teknik 4-7-8 dapat membantu mengurangi stres, meningkatkan kualitas tidur, dan menenangkan sistem saraf.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 2: Memory Game -->
+                <div class="game-card game-2">
+                    <div class="game-header">
+                        <h3><i class="fas fa-memory"></i> Memory Match</h3>
+                        <p>Latih daya ingat dan konsentrasi</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Skor: <span id="memoryScore">0</span></span>
+                            <span>Percobaan: <span id="memoryAttempts">0</span></span>
+                        </div>
+                        <p class="game-instructions">Temukan semua pasangan kartu dengan membalik dua kartu per giliran.</p>
+                        
+                        <div class="memory-grid" id="memoryGrid">
+                            <!-- Kartu memory game akan dibuat oleh JavaScript -->
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+                            <button class="btn btn-game" id="startMemoryBtn">
+                                <i class="fas fa-play"></i> Mulai Permainan
+                            </button>
+                            <button class="btn" style="background-color: var(--gray-light);" id="resetMemoryBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 3: Focus Game -->
+                <div class="game-card game-3">
+                    <div class="game-header">
+                        <h3><i class="fas fa-bullseye"></i> Focus Trainer</h3>
+                        <p>Tingkatkan fokus dan refleks</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Skor: <span id="focusScore">0</span></span>
+                            <span>Tingkat: <span id="focusLevel">1</span></span>
+                        </div>
+                        <p class="game-instructions">Klik target secepat mungkin sebelum menghilang. Semakin tinggi level, semakin cepat target bergerak.</p>
+                        
+                        <div class="focus-game-area" id="focusGameArea">
+                            <!-- Target akan dibuat oleh JavaScript -->
+                        </div>
+                        
+                        <div class="focus-game-controls">
+                            <div class="timer" id="focusTimer">30</div>
+                            <button class="btn btn-game" id="startFocusBtn">
+                                <i class="fas fa-play"></i> Mulai
+                            </button>
+                            <div class="score" id="focusGameScore">0</div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem;">
+                            <p style="font-size: 0.9rem; color: var(--gray);">Latihan ini dapat meningkatkan koordinasi mata-tangan dan kemampuan fokus visual.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relaxation Page -->
+        <section id="relax" class="main-content">
+            <h2 class="section-title">Relaksasi & Meditasi</h2>
+            
+            <div class="relaxation-grid">
+                <div class="music-player">
+                    <div class="player-header">
+                        <h3>Musik Relaksasi AI-Generated</h3>
+                        <p>Musik yang dihasilkan AI untuk menenangkan pikiran</p>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <button class="play-btn" id="playMusicBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <p style="text-align: center; margin-top: 1rem;">"Calm Ocean Waves" - AI Generated</p>
+                        
+                        <div class="progress-bar">
+                            <div class="progress" id="musicProgress"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                            <span>0:00</span>
+                            <span>5:00</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                            <button class="btn" style="background-color: var(--light);" id="prevTrackBtn">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button class="btn" style="background-color: var(--light);" id="nextTrackBtn">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-player">
+                    <div class="player-header">
+                        <h3>Video Meditasi & Edukasi</h3>
+                        <p>Konten self-help untuk kesehatan mental</p>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <div style="background-color: var(--dark); height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                            <i class="fas fa-play-circle" style="font-size: 3rem; color: white; opacity: 0.7;"></i>
+                        </div>
+                        
+                        <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Meditasi Pernapasan 10 Menit</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 1.5rem;">Panduan meditasi untuk mengurangi kecemasan dan meningkatkan fokus.</p>
+                        
+                        <button class="btn btn-primary" style="width: 100%;" id="playVideoBtn">
+                            <i class="fas fa-play"></i> Putar Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="main-content">
+            <h2 class="section-title">Dashboard Progress</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Pantau perkembangan kesehatan mental dan produktivitas Anda.</p>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line" style="color: var(--primary);"></i> Grafik Mood 7 Hari Terakhir</h3>
+                    <div class="chart-container">
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-tasks" style="color: var(--accent);"></i> Statistik Kebiasaan</h3>
+                    <div class="chart-container">
+                        <canvas id="habitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card" style="margin-top: 2rem;">
+                <h3><i class="fas fa-gamepad" style="color: var(--game-1);"></i> Statistik Mini Games</h3>
+                <div style="padding: 1rem 0;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Pernapasan 4-7-8</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Sesi: <span id="dashboardBreathing">0</span></p>
+                        </div>
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Memory Match</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Skor Tertinggi: <span id="dashboardMemory">0</span></p>
+                        </div>
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Focus Trainer</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Skor Tertinggi: <span id="dashboardFocus">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>FitMind AI</h3>
+                <p>Asisten kesehatan mental & produktivitas cerdas berbasis AI untuk membantu Anda mencapai keseimbangan hidup yang lebih baik.</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p><i class="fas fa-envelope"></i> support@fitmindai.com</p>
+                <p><i class="fas fa-phone"></i> +62 21 1234 5678</p>
+                <p><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Penting</h3>
+                <p>FitMind AI adalah alat bantu, bukan pengganti profesional kesehatan mental. Jika Anda mengalami krisis, segera hubungi profesional atau layanan darurat.</p>
+                <p style="margin-top: 1rem;">
+                    <a href="pages/privacy.html" style="color: white; text-decoration: underline;">Kebijakan Privasi</a> | 
+                    <a href="pages/terms.html" style="color: white; text-decoration: underline;">Syarat & Ketentuan</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="container copyright">
+            <p>&copy; 2023 FitMind AI. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

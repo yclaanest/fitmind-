@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMind AI – Asisten Kesehatan Mental & Produktivitas Cerdas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #5D5FEF;
+            --primary-light: #8B8CFF;
+            --primary-dark: #3A3B9E;
+            --secondary: #FF6B8B;
+            --secondary-light: #FF9EB5;
+            --accent: #6BCF7F;
+            --accent-light: #9BDFA9;
+            --light: #F8F9FF;
+            --dark: #2D2E3A;
+            --gray: #6C757D;
+            --gray-light: #E9ECEF;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --game-1: #6C63FF;
+            --game-2: #FF6584;
+            --game-3: #36D1DC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .logo i {
+            color: var(--accent-light);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--accent-light);
+        }
+        
+        nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-light);
+            border-radius: 2px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-game {
+            background-color: var(--game-1);
+            color: white;
+        }
+        
+        .btn-game:hover {
+            background-color: var(--primary-light);
+            transform: scale(1.05);
+        }
+        
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(to bottom, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .main-content {
+            display: none;
+            padding: 3rem 0;
+        }
+        
+        .main-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .feature-card:nth-child(2) .feature-icon {
+            background-color: var(--secondary);
+        }
+        
+        .feature-card:nth-child(3) .feature-icon {
+            background-color: var(--accent);
+        }
+        
+        .feature-card:nth-child(4) .feature-icon {
+            background-color: var(--warning);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+        
+        .mood-tracker {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+        
+        .mood-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mood-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--gray-light);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        
+        .mood-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .emoji-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .emoji-option {
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+        
+        .emoji-option:hover, .emoji-option.selected {
+            transform: scale(1.2);
+            background-color: var(--gray-light);
+        }
+        
+        .analysis-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: var(--light);
+            display: none;
+        }
+        
+        .chat-container {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+        
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+        
+        .user-message {
+            background-color: var(--primary-light);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .ai-message {
+            background-color: var(--gray-light);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .dashboard-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+        
+        .habit-planner {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+        
+        .habit-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .habit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .habit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+        
+        .habit-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .habit-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .habit-completed {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+        
+        .relaxation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .music-player, .video-player {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .player-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .player-controls {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--gray-light);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--accent);
+            width: 30%;
+        }
+        
+        /* Mini Game Styles */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .game-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .game-header {
+            padding: 1.5rem;
+            color: white;
+        }
+        
+        .game-1 .game-header {
+            background-color: var(--game-1);
+        }
+        
+        .game-2 .game-header {
+            background-color: var(--game-2);
+        }
+        
+        .game-3 .game-header {
+            background-color: var(--game-3);
+        }
+        
+        .game-content {
+            padding: 1.5rem;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .game-instructions {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+        
+        /* Breathing Game */
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--game-3) 0%, #5B86E5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 4s ease-in-out;
+        }
+        
+        .breathing-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Memory Game */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        
+        .memory-card.flipped {
+            background-color: white;
+            color: var(--primary-dark);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background-color: var(--accent);
+            cursor: default;
+        }
+        
+        /* Focus Game */
+        .focus-game-area {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .focus-target {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: var(--game-1);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        
+        .focus-game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--accent-light);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid, .dashboard-grid, .relaxation-grid, .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .habit-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .memory-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .user-info {
+                margin-left: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .emoji-selector {
+                flex-wrap: wrap;
+            }
+            
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .breathing-circle {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>FitMind AI</span>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Beranda</a></li>
+                    <li><a href="#" class="nav-link" data-page="mood">Mood Tracker</a></li>
+                    <li><a href="#" class="nav-link" data-page="chat">AI Therapist</a></li>
+                    <li><a href="#" class="nav-link" data-page="habits">Habit Planner</a></li>
+                    <li><a href="#" class="nav-link" data-page="games">Mini Games</a></li>
+                    <li><a href="#" class="nav-link" data-page="relax">Relaksasi</a></li>
+                    <li><a href="#" class="nav-link" data-page="dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-info">
+                <div class="user-avatar">RA</div>
+                <button class="btn btn-secondary">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Jaga Kesehatan Mental & Tingkatkan Produktivitas</h1>
+            <p>FitMind AI adalah asisten cerdas yang membantu Anda menjaga kesehatan mental, fokus belajar/kerja, dan membangun kebiasaan positif dengan teknologi AI terkini.</p>
+            <div class="hero-btns">
+                <button class="btn btn-primary" id="startBtn">Mulai Hari Ini</button>
+                <button class="btn btn-secondary" id="tryGamesBtn">Coba Mini Games</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Page -->
+        <section id="home" class="main-content active">
+            <h2 class="section-title">Fitur-Fitur Unggulan</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Mood Tracker AI</h3>
+                    <p>Lacak suasana hati Anda setiap hari. AI akan menganalisis emosi dan memberikan insight berdasarkan tulisan Anda.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Chat Therapist</h3>
+                    <p>Chatbot pendengar berbasis AI yang merespons dengan empati dan saran positif untuk membantu Anda mengatasi masalah.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Mini Games Relaksasi</h3>
+                    <p>Permainan santai untuk melatih fokus, mengurangi stres, dan melatih otak dengan cara yang menyenangkan.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Music & Meditation</h3>
+                    <p>Akses musik relaksasi dan meditasi AI-generated untuk menenangkan pikiran dan meningkatkan fokus.</p>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Mini Games untuk Relaksasi</h2>
+            <div class="games-grid" style="margin-top: 2rem;">
+                <div class="game-card game-1">
+                    <div class="game-header">
+                        <h3><i class="fas fa-wind"></i> Pernapasan 4-7-8</h3>
+                        <p>Teknik relaksasi pernapasan</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Ikuti panduan pernapasan untuk mengurangi stres dan kecemasan.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="breathing">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="game-card game-2">
+                    <div class="game-header">
+                        <h3><i class="fas fa-memory"></i> Memory Match</h3>
+                        <p>Latih daya ingat dan fokus</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Temukan pasangan kartu yang sama untuk melatih memori dan konsentrasi.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="memory">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="game-card game-3">
+                    <div class="game-header">
+                        <h3><i class="fas fa-bullseye"></i> Focus Trainer</h3>
+                        <p>Tingkatkan fokus dan refleks</p>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-instructions">Klik target yang muncul untuk melatih fokus dan ketelitian visual.</p>
+                        <button class="btn btn-game" style="width: 100%;" data-game="focus">
+                            <i class="fas fa-play-circle"></i> Mainkan Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mood Tracker Page -->
+        <section id="mood" class="main-content">
+            <h2 class="section-title">Mood Tracker AI</h2>
+            
+            <div class="mood-tracker">
+                <p style="margin-bottom: 1.5rem;">Bagaimana perasaan Anda hari ini? Tuliskan apa yang Anda rasakan atau pilih emoji yang sesuai.</p>
+                
+                <div class="mood-input-area">
+                    <div class="emoji-selector">
+                        <div class="emoji-option" data-emoji="😊" data-mood="happy">😊</div>
+                        <div class="emoji-option" data-emoji="😐" data-mood="neutral">😐</div>
+                        <div class="emoji-option" data-emoji="😔" data-mood="sad">😔</div>
+                        <div class="emoji-option" data-emoji="😴" data-mood="tired">😴</div>
+                        <div class="emoji-option" data-emoji="😰" data-mood="anxious">😰</div>
+                        <div class="emoji-option" data-emoji="😠" data-mood="angry">😠</div>
+                    </div>
+                    
+                    <textarea class="mood-textarea" id="moodText" placeholder="Tuliskan perasaan Anda hari ini... Contoh: Hari ini saya merasa sedikit cemas karena deadline pekerjaan, tapi saya berusaha tetap tenang..."></textarea>
+                    
+                    <button class="btn btn-primary" id="analyzeMoodBtn">
+                        <i class="fas fa-chart-line"></i> Analisis Suasana Hati
+                    </button>
+                </div>
+                
+                <div class="analysis-result" id="analysisResult">
+                    <h3 style="color: var(--primary-dark); margin-bottom: 1rem;">Hasil Analisis AI</h3>
+                    <div id="analysisContent">
+                        <!-- Hasil analisis akan ditampilkan di sini -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Therapist Chat Page -->
+        <section id="chat" class="main-content">
+            <h2 class="section-title">AI Chat Therapist</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Chatbot ini dirancang untuk memberikan dukungan emosional dengan respons empatik. Ingat: AI tidak menggantikan psikolog profesional.</p>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-robot" style="font-size: 1.5rem;"></i>
+                    <h3>FitMind AI Therapist</h3>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        Halo! Saya FitMind AI, asisten kesehatan mental Anda. Bagaimana perasaan Anda hari ini? Saya di sini untuk mendengarkan dan memberikan dukungan.
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan Anda di sini...">
+                    <button class="btn btn-primary" id="sendMessageBtn" style="margin-left: 1rem;">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habit Planner Page -->
+        <section id="habits" class="main-content">
+            <h2 class="section-title">Daily Habit Planner</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">AI akan membantu Anda membuat jadwal harian dan kebiasaan produktif sesuai kondisi emosional Anda.</p>
+            
+            <div class="habit-planner">
+                <div class="habit-form">
+                    <input type="text" class="chat-input" id="habitInput" placeholder="Tambahkan kebiasaan baru...">
+                    <select class="chat-input" id="habitPriority">
+                        <option value="low">Prioritas Rendah</option>
+                        <option value="medium" selected>Prioritas Menengah</option>
+                        <option value="high">Prioritas Tinggi</option>
+                    </select>
+                    <button class="btn btn-primary" id="addHabitBtn">Tambah</button>
+                </div>
+                
+                <h3 style="color: var(--primary-dark); margin-bottom: 1rem; font-size: 1.3rem;">Kebiasaan Hari Ini</h3>
+                <div class="habit-list" id="habitList">
+                    <!-- Daftar habit akan ditampilkan di sini -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Mini Games Page -->
+        <section id="games" class="main-content">
+            <h2 class="section-title">Mini Games Relaksasi & Brain Training</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Permainan singkat untuk mengurangi stres, melatih fokus, dan meningkatkan kesehatan mental dengan cara yang menyenangkan.</p>
+            
+            <div class="games-grid">
+                <!-- Game 1: Breathing Exercise -->
+                <div class="game-card game-1">
+                    <div class="game-header">
+                        <h3><i class="fas fa-wind"></i> Pernapasan 4-7-8</h3>
+                        <p>Teknik relaksasi untuk mengurangi kecemasan</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Sesi: <span id="breathingSessions">0</span></span>
+                            <span>Durasi: <span id="breathingDuration">0</span> detik</span>
+                        </div>
+                        <p class="game-instructions">Ikuti panduan: Tarik napas (4 detik) → Tahan (7 detik) → Buang napas (8 detik). Ulangi 4 kali.</p>
+                        
+                        <div class="breathing-circle" id="breathingCircle">
+                            <div id="breathingText">Siap? Mulai!</div>
+                            <div id="breathingTimer" style="font-size: 2rem; font-weight: bold; display: none;">4</div>
+                        </div>
+                        
+                        <div class="breathing-controls">
+                            <button class="btn btn-game" id="startBreathingBtn">
+                                <i class="fas fa-play"></i> Mulai
+                            </button>
+                            <button class="btn" style="background-color: var(--gray-light);" id="resetBreathingBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--gray-light);">
+                            <p style="font-size: 0.9rem; color: var(--gray);">Teknik 4-7-8 dapat membantu mengurangi stres, meningkatkan kualitas tidur, dan menenangkan sistem saraf.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 2: Memory Game -->
+                <div class="game-card game-2">
+                    <div class="game-header">
+                        <h3><i class="fas fa-memory"></i> Memory Match</h3>
+                        <p>Latih daya ingat dan konsentrasi</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Skor: <span id="memoryScore">0</span></span>
+                            <span>Percobaan: <span id="memoryAttempts">0</span></span>
+                        </div>
+                        <p class="game-instructions">Temukan semua pasangan kartu dengan membalik dua kartu per giliran.</p>
+                        
+                        <div class="memory-grid" id="memoryGrid">
+                            <!-- Kartu memory game akan dibuat oleh JavaScript -->
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+                            <button class="btn btn-game" id="startMemoryBtn">
+                                <i class="fas fa-play"></i> Mulai Permainan
+                            </button>
+                            <button class="btn" style="background-color: var(--gray-light);" id="resetMemoryBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 3: Focus Game -->
+                <div class="game-card game-3">
+                    <div class="game-header">
+                        <h3><i class="fas fa-bullseye"></i> Focus Trainer</h3>
+                        <p>Tingkatkan fokus dan refleks</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-stats">
+                            <span>Skor: <span id="focusScore">0</span></span>
+                            <span>Tingkat: <span id="focusLevel">1</span></span>
+                        </div>
+                        <p class="game-instructions">Klik target secepat mungkin sebelum menghilang. Semakin tinggi level, semakin cepat target bergerak.</p>
+                        
+                        <div class="focus-game-area" id="focusGameArea">
+                            <!-- Target akan dibuat oleh JavaScript -->
+                        </div>
+                        
+                        <div class="focus-game-controls">
+                            <div class="timer" id="focusTimer">30</div>
+                            <button class="btn btn-game" id="startFocusBtn">
+                                <i class="fas fa-play"></i> Mulai
+                            </button>
+                            <div class="score" id="focusGameScore">0</div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem;">
+                            <p style="font-size: 0.9rem; color: var(--gray);">Latihan ini dapat meningkatkan koordinasi mata-tangan dan kemampuan fokus visual.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relaxation Page -->
+        <section id="relax" class="main-content">
+            <h2 class="section-title">Relaksasi & Meditasi</h2>
+            
+            <div class="relaxation-grid">
+                <div class="music-player">
+                    <div class="player-header">
+                        <h3>Musik Relaksasi AI-Generated</h3>
+                        <p>Musik yang dihasilkan AI untuk menenangkan pikiran</p>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <button class="play-btn" id="playMusicBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <p style="text-align: center; margin-top: 1rem;">"Calm Ocean Waves" - AI Generated</p>
+                        
+                        <div class="progress-bar">
+                            <div class="progress" id="musicProgress"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                            <span>0:00</span>
+                            <span>5:00</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                            <button class="btn" style="background-color: var(--light);" id="prevTrackBtn">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button class="btn" style="background-color: var(--light);" id="nextTrackBtn">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-player">
+                    <div class="player-header">
+                        <h3>Video Meditasi & Edukasi</h3>
+                        <p>Konten self-help untuk kesehatan mental</p>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <div style="background-color: var(--dark); height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                            <i class="fas fa-play-circle" style="font-size: 3rem; color: white; opacity: 0.7;"></i>
+                        </div>
+                        
+                        <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Meditasi Pernapasan 10 Menit</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 1.5rem;">Panduan meditasi untuk mengurangi kecemasan dan meningkatkan fokus.</p>
+                        
+                        <button class="btn btn-primary" style="width: 100%;" id="playVideoBtn">
+                            <i class="fas fa-play"></i> Putar Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="main-content">
+            <h2 class="section-title">Dashboard Progress</h2>
+            <p style="margin-bottom: 2rem; color: var(--gray);">Pantau perkembangan kesehatan mental dan produktivitas Anda.</p>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line" style="color: var(--primary);"></i> Grafik Mood 7 Hari Terakhir</h3>
+                    <div class="chart-container">
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-tasks" style="color: var(--accent);"></i> Statistik Kebiasaan</h3>
+                    <div class="chart-container">
+                        <canvas id="habitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card" style="margin-top: 2rem;">
+                <h3><i class="fas fa-gamepad" style="color: var(--game-1);"></i> Statistik Mini Games</h3>
+                <div style="padding: 1rem 0;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Pernapasan 4-7-8</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Sesi: <span id="dashboardBreathing">0</span></p>
+                        </div>
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Memory Match</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Skor Tertinggi: <span id="dashboardMemory">0</span></p>
+                        </div>
+                        <div style="background-color: var(--light); padding: 1rem; border-radius: 8px; flex: 1; min-width: 150px;">
+                            <h4 style="color: var(--primary-dark); font-size: 1.1rem;">Focus Trainer</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Skor Tertinggi: <span id="dashboardFocus">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>FitMind AI</h3>
+                <p>Asisten kesehatan mental & produktivitas cerdas berbasis AI untuk membantu Anda mencapai keseimbangan hidup yang lebih baik.</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p><i class="fas fa-envelope"></i> support@fitmindai.com</p>
+                <p><i class="fas fa-phone"></i> +62 21 1234 5678</p>
+                <p><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Penting</h3>
+                <p>FitMind AI adalah alat bantu, bukan pengganti profesional kesehatan mental. Jika Anda mengalami krisis, segera hubungi profesional atau layanan darurat.</p>
+            </div>
+        </div>
+        
+        <div class="container copyright">
+            <p>&copy; 2023 FitMind AI. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mainContents = document.querySelectorAll('.main-content');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        const startBtn = document.getElementById('startBtn');
+        const tryGamesBtn = document.getElementById('tryGamesBtn');
+        const analyzeMoodBtn = document.getElementById('analyzeMoodBtn');
+        const moodText = document.getElementById('moodText');
+        const analysisResult = document.getElementById('analysisResult');
+        const analysisContent = document.getElementById('analysisContent');
+        const emojiOptions = document.querySelectorAll('.emoji-option');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const habitInput = document.getElementById('habitInput');
+        const addHabitBtn = document.getElementById('addHabitBtn');
+        const habitList = document.getElementById('habitList');
+        const playMusicBtn = document.getElementById('playMusicBtn');
+        const musicProgress = document.getElementById('musicProgress');
+        const gameButtons = document.querySelectorAll('[data-game]');
+        
+        // State variables
+        let selectedEmoji = null;
+        let selectedMood = null;
+        let isMusicPlaying = false;
+        let musicProgressInterval;
+        let currentProgress = 0;
+        let habits = [
+            { id: 1, text: "Meditasi pagi 10 menit", completed: true },
+            { id: 2, text: "Minum 8 gelas air", completed: true },
+            { id: 3, text: "Olahraga 30 menit", completed: false },
+            { id: 4, text: "Membaca buku 20 menit", completed: false }
+        ];
+        
+        // Game state variables
+        let breathingSessions = 0;
+        let breathingDuration = 0;
+        let breathingInterval;
+        let breathingPhase = 0; // 0: idle, 1: inhale, 2: hold, 3: exhale
+        let breathingCount = 4;
+        
+        let memoryCards = [];
+        let memoryFlippedCards = [];
+        let memoryMatchedPairs = 0;
+        let memoryScore = 0;
+        let memoryAttempts = 0;
+        let memoryGameActive = false;
+        
+        let focusScore = 0;
+        let focusLevel = 1;
+        let focusTimer = 30;
+        let focusGameActive = false;
+        let focusInterval;
+        let targetInterval;
+        
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                
+                // Update active nav link
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show selected page
+                mainContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(page).classList.add('active');
+                
+                // Close mobile menu if open
+                if (window.innerWidth <= 768) {
+                    mainNav.classList.remove('active');
+                }
+                
+                // If mood page is selected, update video recommendation based on mood
+                if (page === 'mood' && selectedMood) {
+                    updateVideoRecommendation(selectedMood);
+                }
+                
+                // If dashboard page is selected, update charts and game stats
+                if (page === 'dashboard') {
+                    setTimeout(updateCharts, 100);
+                    updateGameStatsDashboard();
+                }
+                
+                // If games page is selected, initialize games
+                if (page === 'games') {
+                    setTimeout(initGames, 100);
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
+        
+        // Start button - go to mood tracker
+        startBtn.addEventListener('click', () => {
+            document.querySelector('[data-page="mood"]').click();
+        });
+        
+        // Try games button
+        tryGamesBtn.addEventListener('click', () => {
+            document.querySelector('[data-page="games"]').click();
+        });
+        
+        // Game buttons on home page
+        gameButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const game = e.target.closest('button').getAttribute('data-game');
+                document.querySelector('[data-page="games"]').click();
+                
+                // Scroll to specific game
+                setTimeout(() => {
+                    const gameElement = document.getElementById(game + 'Game');
+                    if (gameElement) {
+                        gameElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 300);
+            });
+        });
+        
+        // Emoji selection for mood tracker
+        emojiOptions.forEach(emoji => {
+            emoji.addEventListener('click', () => {
+                // Remove selected class from all emojis
+                emojiOptions.forEach(e => e.classList.remove('selected'));
+                
+                // Add selected class to clicked emoji
+                emoji.classList.add('selected');
+                
+                // Store selected emoji and mood
+                selectedEmoji = emoji.getAttribute('data-emoji');
+                selectedMood = emoji.getAttribute('data-mood');
+                
+                // Update mood text placeholder with selected emoji
+                moodText.placeholder = `${selectedEmoji} Tuliskan perasaan Anda hari ini...`;
+            });
+        });
+        
+        // Analyze mood button
+        analyzeMoodBtn.addEventListener('click', () => {
+            const moodTextValue = moodText.value.trim();
+            
+            if (!moodTextValue && !selectedEmoji) {
+                alert("Silakan tulis perasaan Anda atau pilih emoji terlebih dahulu.");
+                return;
+            }
+            
+            // Show analysis result
+            analysisResult.style.display = 'block';
+            
+            // Determine mood based on text or selected emoji
+            let detectedMood = selectedMood || 'neutral';
+            let moodDescription = '';
+            let recommendations = '';
+            
+            // Simple sentiment analysis based on keywords (in a real app, this would be done by AI)
+            const text = moodTextValue.toLowerCase();
+            
+            if (text.includes('senang') || text.includes('bahagia') || text.includes('baik') || text.includes('positif')) {
+                detectedMood = 'happy';
+                moodDescription = 'Analisis AI mendeteksi suasana hati positif. Bagus!';
+                recommendations = 'Pertahankan energi positif ini dengan berbagi kebahagiaan kepada orang lain atau melanjutkan aktivitas yang membuat Anda senang.';
+            } else if (text.includes('sedih') || text.includes('kecewa') || text.includes('buruk') || text.includes('lemah')) {
+                detectedMood = 'sad';
+                moodDescription = 'Analisis AI mendeteksi suasana hati sedang menurun. Tidak apa-apa merasa sedih, itu manusiawi.';
+                recommendations = 'Cobalah mendengarkan musik yang menenangkan, hubungi teman untuk berbicara, atau lakukan aktivitas yang biasanya membuat Anda merasa lebih baik.';
+            } else if (text.includes('cemas') || text.includes('khawatir') || text.includes('stres') || text.includes('tekanan')) {
+                detectedMood = 'anxious';
+                moodDescription = 'Analisis AI mendeteksi tingkat kecemasan yang meningkat. Mari kita coba tenangkan pikiran.';
+                recommendations = 'Coba teknik pernapasan 4-7-8: tarik napas 4 detik, tahan 7 detik, buang napas 8 detik. Ulangi 4 kali.';
+            } else if (text.includes('lelah') || text.includes('capek') || text.includes('penat') || text.includes('lesu')) {
+                detectedMood = 'tired';
+                moodDescription = 'Analisis AI mendeteksi tingkat energi yang rendah. Tubuh Anda mungkin butuh istirahat.';
+                recommendations = 'Pertimbangkan untuk tidur lebih awal hari ini, kurangi kafein, dan luangkan waktu untuk relaksasi.';
+            } else {
+                moodDescription = 'Analisis AI mendeteksi suasana hati yang netral.';
+                recommendations = 'Coba lakukan sesuatu yang baru hari ini untuk menambah semangat!';
+            }
+            
+            // Update analysis content
+            analysisContent.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="font-size: 2.5rem;">${selectedEmoji || '😐'}</div>
+                    <div>
+                        <h4 style="color: var(--primary-dark);">Suasana Hati: ${getMoodLabel(detectedMood)}</h4>
+                        <p>${moodDescription}</p>
+                    </div>
+                </div>
+                <div style="background-color: white; padding: 1rem; border-radius: 8px;">
+                    <h5 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Rekomendasi AI:</h5>
+                    <p>${recommendations}</p>
+                </div>
+            `;
+            
+            // Save mood to localStorage (simulating database storage)
+            saveMoodToHistory(detectedMood, moodTextValue);
+        });
+        
+        // Function to get mood label in Indonesian
+        function getMoodLabel(mood) {
+            switch(mood) {
+                case 'happy': return 'Bahagia';
+                case 'sad': return 'Sedih';
+                case 'anxious': return 'Cemas';
+                case 'tired': return 'Lelah';
+                case 'angry': return 'Marah';
+                default: return 'Netral';
+            }
+        }
+        
+        // Function to update video recommendation based on mood
+        function updateVideoRecommendation(mood) {
+            let videoTitle = "Teknik Pernapasan 4-7-8";
+            
+            if (mood === 'sad') {
+                videoTitle = "Membangun Resilience dan Optimisme";
+            } else if (mood === 'anxious') {
+                videoTitle = "Meditasi untuk Meredakan Kecemasan";
+            } else if (mood === 'tired') {
+                videoTitle = "Energizing Morning Routine";
+            } else if (mood === 'happy') {
+                videoTitle = "Mempertahankan Energi Positif";
+            }
+        }
+        
+        // Function to save mood to history (simulated)
+        function saveMoodToHistory(mood, text) {
+            // In a real app, this would send data to a backend
+            console.log("Mood saved:", { mood, text, date: new Date().toISOString() });
+        }
+        
+        // Chat functionality
+        sendMessageBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessageToChat(message, 'user');
+            chatInput.value = '';
+            
+            // Simulate AI response after delay
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(message);
+                addMessageToChat(aiResponse, 'ai');
+            }, 1000);
+        }
+        
+        function addMessageToChat(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function generateAIResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Simple response logic (in a real app, this would use AI API)
+            if (lowerMessage.includes('stres') || lowerMessage.includes('tekanan')) {
+                return "Saya mengerti bahwa Anda merasa stres. Cobalah untuk mengambil napas dalam-dalam. Apakah ada satu hal kecil yang bisa Anda kendalikan saat ini? Fokus pada hal itu bisa membantu mengurangi perasaan terbebani.";
+            } else if (lowerMessage.includes('cemas') || lowerMessage.includes('khawatir')) {
+                return "Kecemasan tentang masa depan itu wajar. Coba tanyakan pada diri sendiri: 'Apa hal terburuk yang mungkin terjadi, dan seberapa besar kemungkinannya?' Seringkali, ketakutan kita lebih besar dari kenyataan.";
+            } else if (lowerMessage.includes('tidur') || lowerMessage.includes('insomnia')) {
+                return "Sulit tidur bisa sangat melelahkan. Coba buat rutinitas sebelum tidur: matikan layar 1 jam sebelumnya, baca buku, atau coba meditasi singkat. Apakah Anda sudah mencoba teknik pernapasan 4-7-8?";
+            } else if (lowerMessage.includes('fokus') || lowerMessage.includes('konsentrasi')) {
+                return "Sulit fokus adalah masalah umum. Coba teknik Pomodoro: kerja fokus 25 menit, istirahat 5 menit. Juga, pastikan Anda cukup minum air dan istirahat mata dari layar secara berkala.";
+            } else {
+                const responses = [
+                    "Terima kasih telah berbagi perasaan Anda. Bagaimana perasaan Anda setelah mengungkapkannya?",
+                    "Saya mendengarkan. Apakah ada hal spesifik yang membuat Anda merasa seperti itu?",
+                    "Terima kasih sudah membuka diri. Ingat, tidak apa-apa merasakan emosi apapun yang Anda rasakan saat ini.",
+                    "Saya di sini untuk mendukung Anda. Apa yang menurut Anda bisa membantu Anda merasa sedikit lebih baik sekarang?",
+                    "Emosi yang Anda rasakan valid. Mari kita cari cara untuk mengelolanya bersama."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+        
+        // Habit planner functionality
+        function renderHabits() {
+            habitList.innerHTML = '';
+            
+            habits.forEach(habit => {
+                const habitItem = document.createElement('div');
+                habitItem.className = 'habit-item';
+                habitItem.innerHTML = `
+                    <div class="habit-info">
+                        <input type="checkbox" class="habit-checkbox" ${habit.completed ? 'checked' : ''} data-id="${habit.id}">
+                        <span class="${habit.completed ? 'habit-completed' : ''}">${habit.text}</span>
+                    </div>
+                    <button class="btn" style="background-color: transparent; color: var(--danger); padding: 0.3rem 0.6rem;" data-id="${habit.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                habitList.appendChild(habitItem);
+            });
+            
+            // Add event listeners for checkboxes
+            document.querySelectorAll('.habit-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const habit = habits.find(h => h.id === id);
+                    if (habit) {
+                        habit.completed = this.checked;
+                        renderHabits();
+                    }
+                });
+            });
+            
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.habit-item button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    habits = habits.filter(h => h.id !== id);
+                    renderHabits();
+                });
+            });
+        }
+        
+        // Add habit button
+        addHabitBtn.addEventListener('click', () => {
+            const text = habitInput.value.trim();
+            const priority = document.getElementById('habitPriority').value;
+            
+            if (!text) {
+                alert("Silakan masukkan kebiasaan yang ingin ditambahkan.");
+                return;
+            }
+            
+            const newHabit = {
+                id: habits.length > 0 ? Math.max(...habits.map(h => h.id)) + 1 : 1,
+                text: text,
+                completed: false
+            };
+            
+            habits.push(newHabit);
+            renderHabits();
+            habitInput.value = '';
+        });
+        
+        // Render initial habits
+        renderHabits();
+        
+        // Music player functionality
+        playMusicBtn.addEventListener('click', () => {
+            isMusicPlaying = !isMusicPlaying;
+            
+            if (isMusicPlaying) {
+                playMusicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                // Simulate progress
+                currentProgress = 0;
+                musicProgressInterval = setInterval(() => {
+                    currentProgress += 0.33; // 5 minutes total = 300 seconds
+                    if (currentProgress >= 100) {
+                        currentProgress = 100;
+                        clearInterval(musicProgressInterval);
+                        isMusicPlaying = false;
+                        playMusicBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                    musicProgress.style.width = `${currentProgress}%`;
+                }, 1000);
+            } else {
+                playMusicBtn.innerHTML = '<i class="fas fa-play"></i>';
+                clearInterval(musicProgressInterval);
+            }
+        });
+        
+        // Previous and next track buttons
+        document.getElementById('prevTrackBtn').addEventListener('click', () => {
+            alert("Memutar track sebelumnya: 'Morning Calm'");
+        });
+        
+        document.getElementById('nextTrackBtn').addEventListener('click', () => {
+            alert("Memutar track berikutnya: 'Forest Meditation'");
+        });
+        
+        // Play video button
+        document.getElementById('playVideoBtn').addEventListener('click', () => {
+            alert("Video meditasi akan diputar di jendela baru. (Simulasi)");
+        });
+        
+        // MINI GAMES IMPLEMENTATION
+        
+        // Initialize games when games page is loaded
+        function initGames() {
+            initBreathingGame();
+            initMemoryGame();
+            initFocusGame();
+        }
+        
+        // 1. BREATHING GAME
+        function initBreathingGame() {
+            const startBtn = document.getElementById('startBreathingBtn');
+            const resetBtn = document.getElementById('resetBreathingBtn');
+            const breathingCircle = document.getElementById('breathingCircle');
+            const breathingText = document.getElementById('breathingText');
+            const breathingTimer = document.getElementById('breathingTimer');
+            
+            startBtn.addEventListener('click', startBreathingExercise);
+            resetBtn.addEventListener('click', resetBreathingExercise);
+            
+            function startBreathingExercise() {
+                if (breathingPhase !== 0) return; // Already running
+                
+                breathingPhase = 1;
+                startBtn.disabled = true;
+                breathingText.style.display = 'none';
+                breathingTimer.style.display = 'block';
+                breathingCount = 4;
+                
+                breathingInterval = setInterval(updateBreathing, 1000);
+                updateBreathing();
+            }
+            
+            function updateBreathing() {
+                const circle = breathingCircle;
+                const timer = breathingTimer;
+                
+                if (breathingPhase === 1) { // Inhale
+                    timer.textContent = breathingCount;
+                    circle.style.transform = 'scale(1.5)';
+                    circle.style.backgroundColor = '#36D1DC';
+                    
+                    if (breathingCount <= 0) {
+                        breathingPhase = 2;
+                        breathingCount = 7;
+                    }
+                } else if (breathingPhase === 2) { // Hold
+                    timer.textContent = breathingCount;
+                    circle.style.transform = 'scale(1.5)';
+                    circle.style.backgroundColor = '#5B86E5';
+                    
+                    if (breathingCount <= 0) {
+                        breathingPhase = 3;
+                        breathingCount = 8;
+                    }
+                } else if (breathingPhase === 3) { // Exhale
+                    timer.textContent = breathingCount;
+                    circle.style.transform = 'scale(1)';
+                    circle.style.backgroundColor = '#6C63FF';
+                    
+                    if (breathingCount <= 0) {
+                        // Cycle completed
+                        breathingSessions++;
+                        breathingDuration += 19; // 4+7+8 = 19 seconds per cycle
+                        
+                        document.getElementById('breathingSessions').textContent = breathingSessions;
+                        document.getElementById('breathingDuration').textContent = breathingDuration;
+                        
+                        // Check if we've done 4 cycles
+                        if (breathingSessions % 4 === 0) {
+                            clearInterval(breathingInterval);
+                            breathingPhase = 0;
+                            startBtn.disabled = false;
+                            timer.style.display = 'none';
+                            breathingText.style.display = 'block';
+                            breathingText.textContent = "Selesai! Bagus!";
+                            circle.style.backgroundColor = '#36D1DC';
+                            
+                            // Update dashboard stats
+                            updateGameStatsDashboard();
+                            
+                            // Show congratulation
+                            setTimeout(() => {
+                                alert("Selamat! Anda telah menyelesaikan 4 siklus pernapasan 4-7-8. Anda telah berlatih selama " + breathingDuration + " detik.");
+                            }, 500);
+                        } else {
+                            // Start next cycle
+                            breathingPhase = 1;
+                            breathingCount = 4;
+                        }
+                    }
+                }
+                
+                breathingCount--;
+            }
+            
+            function resetBreathingExercise() {
+                clearInterval(breathingInterval);
+                breathingPhase = 0;
+                startBtn.disabled = false;
+                
+                const circle = breathingCircle;
+                const timer = breathingTimer;
+                const text = breathingText;
+                
+                circle.style.transform = 'scale(1)';
+                circle.style.backgroundColor = '#36D1DC';
+                timer.style.display = 'none';
+                text.style.display = 'block';
+                text.textContent = "Siap? Mulai!";
+            }
+        }
+        
+        // 2. MEMORY GAME
+        function initMemoryGame() {
+            const memoryGrid = document.getElementById('memoryGrid');
+            const startBtn = document.getElementById('startMemoryBtn');
+            const resetBtn = document.getElementById('resetMemoryBtn');
+            
+            // Symbols for memory cards
+            const symbols = ['😊', '🧠', '💡', '🎵', '🌈', '🌟', '🎯', '🕊️'];
+            
+            startBtn.addEventListener('click', startMemoryGame);
+            resetBtn.addEventListener('click', resetMemoryGame);
+            
+            function startMemoryGame() {
+                if (memoryGameActive) return;
+                
+                memoryGameActive = true;
+                memoryMatchedPairs = 0;
+                memoryScore = 0;
+                memoryAttempts = 0;
+                memoryFlippedCards = [];
+                
+                // Update UI
+                document.getElementById('memoryScore').textContent = memoryScore;
+                document.getElementById('memoryAttempts').textContent = memoryAttempts;
+                
+                // Create cards (pairs of each symbol)
+                memoryCards = [];
+                symbols.forEach(symbol => {
+                    memoryCards.push(symbol);
+                    memoryCards.push(symbol);
+                });
+                
+                // Shuffle cards
+                memoryCards.sort(() => Math.random() - 0.5);
+                
+                // Render cards
+                memoryGrid.innerHTML = '';
+                memoryCards.forEach((symbol, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.index = index;
+                    card.dataset.symbol = symbol;
+                    card.textContent = '?';
+                    
+                    card.addEventListener('click', flipCard);
+                    memoryGrid.appendChild(card);
+                });
+                
+                startBtn.disabled = true;
+                setTimeout(() => {
+                    startBtn.disabled = false;
+                    startBtn.textContent = "Permainan Berjalan";
+                }, 100);
+            }
+            
+            function flipCard() {
+                if (!memoryGameActive) return;
+                
+                const card = this;
+                
+                // Don't flip if already flipped or matched
+                if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+                    return;
+                }
+                
+                // Don't flip if already 2 cards are flipped
+                if (memoryFlippedCards.length >= 2) {
+                    return;
+                }
+                
+                // Flip the card
+                card.classList.add('flipped');
+                card.textContent = card.dataset.symbol;
+                memoryFlippedCards.push(card);
+                
+                // Check for match if 2 cards are flipped
+                if (memoryFlippedCards.length === 2) {
+                    memoryAttempts++;
+                    document.getElementById('memoryAttempts').textContent = memoryAttempts;
+                    
+                    const card1 = memoryFlippedCards[0];
+                    const card2 = memoryFlippedCards[1];
+                    
+                    if (card1.dataset.symbol === card2.dataset.symbol) {
+                        // Match found
+                        card1.classList.add('matched');
+                        card2.classList.add('matched');
+                        memoryMatchedPairs++;
+                        memoryScore += 10;
+                        document.getElementById('memoryScore').textContent = memoryScore;
+                        
+                        // Clear flipped cards
+                        memoryFlippedCards = [];
+                        
+                        // Check if game is complete
+                        if (memoryMatchedPairs === symbols.length) {
+                            memoryGameActive = false;
+                            startBtn.textContent = "Mulai Permainan";
+                            
+                            // Update dashboard stats
+                            updateGameStatsDashboard();
+                            
+                            // Show congratulation
+                            setTimeout(() => {
+                                alert(`Selamat! Anda menemukan semua pasangan dengan ${memoryAttempts} percobaan. Skor: ${memoryScore}`);
+                            }, 500);
+                        }
+                    } else {
+                        // No match, flip back after delay
+                        setTimeout(() => {
+                            card1.classList.remove('flipped');
+                            card2.classList.remove('flipped');
+                            card1.textContent = '?';
+                            card2.textContent = '?';
+                            memoryFlippedCards = [];
+                        }, 1000);
+                    }
+                }
+            }
+            
+            function resetMemoryGame() {
+                memoryGameActive = false;
+                startBtn.textContent = "Mulai Permainan";
+                memoryGrid.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--gray);">Klik "Mulai Permainan" untuk memulai</p>';
+            }
+        }
+        
+        // 3. FOCUS GAME
+        function initFocusGame() {
+            const gameArea = document.getElementById('focusGameArea');
+            const startBtn = document.getElementById('startFocusBtn');
+            const timerDisplay = document.getElementById('focusTimer');
+            const scoreDisplay = document.getElementById('focusGameScore');
+            
+            startBtn.addEventListener('click', startFocusGame);
+            
+            function startFocusGame() {
+                if (focusGameActive) return;
+                
+                focusGameActive = true;
+                focusScore = 0;
+                focusLevel = 1;
+                focusTimer = 30;
+                
+                // Update UI
+                document.getElementById('focusScore').textContent = focusScore;
+                document.getElementById('focusLevel').textContent = focusLevel;
+                scoreDisplay.textContent = focusScore;
+                timerDisplay.textContent = focusTimer;
+                startBtn.disabled = true;
+                startBtn.textContent = "Sedang Berjalan";
+                
+                // Clear game area
+                gameArea.innerHTML = '';
+                
+                // Create first target
+                createTarget();
+                
+                // Start timer
+                focusInterval = setInterval(updateFocusTimer, 1000);
+                
+                // Start target spawner
+                targetInterval = setInterval(spawnTarget, 1500 - (focusLevel * 100));
+            }
+            
+            function createTarget() {
+                const target = document.createElement('div');
+                target.className = 'focus-target';
+                
+                // Random position
+                const maxX = gameArea.clientWidth - 40;
+                const maxY = gameArea.clientHeight - 40;
+                const x = Math.floor(Math.random() * maxX);
+                const y = Math.floor(Math.random() * maxY);
+                
+                target.style.left = `${x}px`;
+                target.style.top = `${y}px`;
+                
+                // Add click event
+                target.addEventListener('click', () => {
+                    if (!focusGameActive) return;
+                    
+                    // Increase score
+                    focusScore += focusLevel;
+                    scoreDisplay.textContent = focusScore;
+                    document.getElementById('focusScore').textContent = focusScore;
+                    
+                    // Remove target
+                    target.remove();
+                    
+                    // Increase level every 10 points
+                    if (focusScore > 0 && focusScore % 10 === 0) {
+                        focusLevel++;
+                        document.getElementById('focusLevel').textContent = focusLevel;
+                        
+                        // Increase difficulty
+                        clearInterval(targetInterval);
+                        targetInterval = setInterval(spawnTarget, Math.max(500, 1500 - (focusLevel * 100)));
+                    }
+                });
+                
+                // Remove target after 2 seconds
+                setTimeout(() => {
+                    if (target.parentNode) {
+                        target.remove();
+                    }
+                }, 2000);
+                
+                gameArea.appendChild(target);
+            }
+            
+            function spawnTarget() {
+                if (!focusGameActive) return;
+                createTarget();
+            }
+            
+            function updateFocusTimer() {
+                focusTimer--;
+                timerDisplay.textContent = focusTimer;
+                
+                if (focusTimer <= 0) {
+                    endFocusGame();
+                }
+            }
+            
+            function endFocusGame() {
+                focusGameActive = false;
+                clearInterval(focusInterval);
+                clearInterval(targetInterval);
+                
+                startBtn.disabled = false;
+                startBtn.textContent = "Mulai";
+                
+                // Update dashboard stats
+                updateGameStatsDashboard();
+                
+                // Show results
+                setTimeout(() => {
+                    alert(`Waktu habis! Skor akhir: ${focusScore}. Level tertinggi: ${focusLevel}.`);
+                }, 500);
+            }
+        }
+        
+        // Update game stats on dashboard
+        function updateGameStatsDashboard() {
+            document.getElementById('dashboardBreathing').textContent = breathingSessions;
+            document.getElementById('dashboardMemory').textContent = memoryScore;
+            document.getElementById('dashboardFocus').textContent = focusScore;
+        }
+        
+        // Charts for dashboard
+        function updateCharts() {
+            // Mood chart
+            const moodCtx = document.getElementById('moodChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.moodChartInstance) {
+                window.moodChartInstance.destroy();
+            }
+            
+            window.moodChartInstance = new Chart(moodCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Tingkat Mood (1-10)',
+                        data: [7, 6, 5, 8, 7, 9, 8],
+                        borderColor: 'rgba(93, 95, 239, 1)',
+                        backgroundColor: 'rgba(93, 95, 239, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 0,
+                            max: 10,
+                            ticks: {
+                                stepSize: 2
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Habit chart
+            const habitCtx = document.getElementById('habitChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.habitChartInstance) {
+                window.habitChartInstance.destroy();
+            }
+            
+            window.habitChartInstance = new Chart(habitCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selesai', 'Belum Selesai'],
+                    datasets: [{
+                        data: [habits.filter(h => h.completed).length, habits.filter(h => !h.completed).length],
+                        backgroundColor: [
+                            'rgba(107, 207, 127, 0.8)',
+                            'rgba(255, 107, 139, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize the app
+        window.addEventListener('DOMContentLoaded', () => {
+            // Add sample chat messages
+            addMessageToChat("Halo! Saya FitMind AI, asisten kesehatan mental Anda. Bagaimana perasaan Anda hari ini? Saya di sini untuk mendengarkan dan memberikan dukungan.", 'ai');
+            
+            // Initialize charts if on dashboard
+            if (window.location.hash === '#dashboard' || document.getElementById('dashboard').classList.contains('active')) {
+                setTimeout(updateCharts, 100);
+                updateGameStatsDashboard();
+            }
+            
+            // Initialize games if on games page
+            if (window.location.hash === '#games' || document.getElementById('games').classList.contains('active')) {
+                setTimeout(initGames, 100);
+            }
+        });
+    </script>
+</body>
+</html>
